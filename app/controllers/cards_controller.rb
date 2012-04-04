@@ -17,7 +17,7 @@ class CardsController < ApplicationController
     resource_found?(@project) do 
       card = @project.cards.create(params[:card])
       item = {card: card} if card
-      render_json(item, :error_code => :bad_request)
+      render_json(item, :error_code => :bad_request, :except => [:project_id])
     end
   end
 
@@ -25,7 +25,7 @@ class CardsController < ApplicationController
     resource_found?(@project) do
       card = @project.cards.find_by_id(params[:id])
       item = {card: card} if card.update_attributes(params[:card])
-      render_json(item, :error_code => :bad_request)
+      render_json(item, :error_code => :bad_request, :except => [:project_id])
     end
   end
 
@@ -38,7 +38,7 @@ class CardsController < ApplicationController
   end
 
   private
-  def get_project
-    @project = Project.find_by_id(params[:project_id])
-  end
+    def get_project
+      @project = Project.find_by_id(params[:project_id])
+    end
 end
