@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.3'
 
 gem 'sqlite3'
+gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
 
 # Asset template engines
 group :assets do
