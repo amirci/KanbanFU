@@ -36,5 +36,31 @@ describe ProjectsController do
     it { should respond_with_json({project: new_project}.to_json(except: exceptions)) }
   end
 
+  describe "#destroy" do
+    let(:project) { stub_model(Project, Fabricate.attributes_for(:project)) }
+
+    context "when project exists" do
+      before do
+        Project.stub(:find_by_id).with("1").and_return(project)
+        project.should_receive(:destroy).and_return(true)
+        delete :destroy, :format => :json, :id => 1
+      end
+
+      it { should respond_with(:success) }
+      it { should respond_with_json.as_empty }
+    end
+    
+    # context "when project does not exist" do
+    #   before do
+    #     Project.stub(:find_by_id).with(project.id.to_s).and_return(nil)
+    #     delete :destroy, :format => :json, :id => project.id
+    #   end
+    # 
+    #   it { should respond_with(:not_found) }
+    #   # it { should respond_with_json({message: "Not Found"}.to_json) }
+    # end
+    
+  end
+  
 end
 
