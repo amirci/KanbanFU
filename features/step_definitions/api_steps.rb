@@ -3,5 +3,5 @@ When /^I call the API to delete the project$/ do
 end
 
 Then /^the response should indicate the project has been deleted$/ do
-  pending # express the regexp above with the code you wish you had
+  last_json.should be_json_eql("null")
 end
