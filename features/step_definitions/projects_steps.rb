@@ -11,5 +11,5 @@ Given /^I have a project called "([^"]*)"$/ do |project_name|
 end
 
 Then /^the project should not exist any more$/ do
-  pending # express the regexp above with the code you wish you had
+  Project.find(current_project.id).should be_nil
 end
