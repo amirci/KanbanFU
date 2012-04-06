@@ -28,5 +28,6 @@ group :development, :test do
   gem 'spork', '~> 0.9.0.rc'
   gem 'database_cleaner'
   gem 'json_spec'
+  gem 'fabrication'
 end
 
