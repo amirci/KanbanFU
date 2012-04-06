@@ -10,4 +10,8 @@ class ProjectsController < ApplicationController
     project.save
     render_json({project: project})
   end
+  
+  def destroy
+  end
+  
 end
