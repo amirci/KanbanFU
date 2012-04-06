@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
   end
   
   def destroy
+    respond_with(nil)
   end
   
 end
