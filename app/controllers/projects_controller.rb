@@ -13,12 +13,10 @@ class ProjectsController < ApplicationController
   
   def destroy
     project = Project.find_by_id(params[:id])
-    project.destroy
-    render_json({})
-    # resource_found?(resource) do |project|
-    #   project.destroy
-    #   render_json({})
-    # end
+    resource_found?(project) do |p|
+      destroyed = p.destroy
+      render_json(destroyed ? {} : nil, :error_code => :error)
+    end
   end
   
 end

@@ -3,7 +3,6 @@ Feature: Projects deletion
   I want to delete a project using the API
   So I can remove it from my list
 
-@wip
   Scenario: Delete a project
     Given I have a project called "Movie Library"
     When  I call the API to delete the project

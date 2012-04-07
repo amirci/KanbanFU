@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
     def resource_found?(object, &block)
       if object
-        block.call
+        return block.call(object)
       else
         render_not_found
       end
