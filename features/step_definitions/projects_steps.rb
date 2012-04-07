@@ -11,5 +11,5 @@ Given /^I have a project called "([^"]*)"$/ do |project_name|
 end
 
 Then /^the project should not exist any more$/ do
-  Project.find(current_project.id).should be_nil
+  Project.find_by_id(current_project.id).should be_nil
 end
