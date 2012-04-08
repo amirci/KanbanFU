@@ -5,7 +5,7 @@ Feature: Projects deletion
 
   Scenario: Delete a project
     Given I have a project called "Movie Library"
-    When  I call the API to delete the project
+    When  I call the delete the project API
     Then  the response should indicate the project has been deleted
     And   the project should not exist any more
   

@@ -1,7 +1,17 @@
-When /^I call the API to delete the project$/ do
+When /^I call the listing projects API$/ do
+  visit "/projects"
+end
+
+When /^I call the delete the project API$/ do
   delete_resource "/projects/#{current_project.id}"
 end
 
-Then /^the response should indicate the project has been deleted$/ do
-  last_json.should be_json_eql("null")
+Given /^I create a new project using the API$/ do
+  attrib = Fabricate.attributes_for(:project)
+  set_current_project Project.new(attrib)
+  post '/projects', :format => :json, 'project' => attrib
+end
+
+Then /^the response should include the new project$/ do
+  pending # express the regexp above with the code you wish you had
 end
