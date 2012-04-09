@@ -1,22 +1,19 @@
 class ProjectsController < ApplicationController
   respond_to :json
-
+  
   def index
-    render_json({projects: Project.all})
+    respond_with Project.all
   end
     
   def create
     project = Project.new(params[:project])
     project.save
-    render_json({project: project})
+    respond_with project
   end
   
   def destroy
-    project = Project.find_by_id(params[:id])
-    resource_found?(project) do |p|
-      destroyed = p.destroy
-      render_json(destroyed ? {} : nil, :error_code => :error)
-    end
-  end
-  
+    project = Project.find(params[:id])
+    project.destroy if project
+    respond_with project
+  end 
 end
