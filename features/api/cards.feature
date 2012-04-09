@@ -9,7 +9,7 @@ Feature: Cards API
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate |
       | 2  | Kill the Sheriff | Make the town kill the Sheriff    |
       | 3  | Take the town    | Make everybody sell their houses  |
-    When I call API "/projects/1/cards"
+    When I get all the cards for project 1 using the API
     Then the response should be a collection of "cards" with:
       | id | title            | description                       | 
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate | 
@@ -22,7 +22,7 @@ Feature: Cards API
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate |
       | 2  | Kill the Sheriff | Make the town kill the Sheriff    |
       | 3  | Take the town    | Make everybody sell their houses  |
-    When I call API "/projects/1/cards/2"
+    When I get card 2 for project 1 using the API
     Then the response should be a "card" with:
       | id | title            | description                       |
       | 2  | Kill the Sheriff | Make the town kill the Sheriff    |
@@ -31,7 +31,7 @@ Feature: Cards API
     Given I post to "/cards" for project "1" with:
       | title                 | description                       |
       | Kill the Sheriff      | Make the town kill the Sheriff    |
-    When I call API "/projects/1/cards"
+    When I get all the cards for project 1 using the API
     Then the response should be a collection of "cards" with:
       | id | title            | description                       |
       | 1  | Kill the Sheriff | Make the town kill the Sheriff    |
@@ -42,10 +42,10 @@ Feature: Cards API
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate |
       | 2  | Kill the Sheriff | Make the town kill the Sheriff    |
       | 3  | Take the town    | Make everybody sell their houses  |
-    When I put to "/cards" for project "1" and card "1" with:
+    And I put to "/cards" for project "1" and card "1" with:
       | title                 | description                       |
       | Find a Deputy         | Get a Deputy for the Sheriff      |
-    And I call API "/projects/1/cards"
+    When I get all the cards for project 1 using the API
     Then the response should be a collection of "cards" with:
       | id | title            | description                       |
       | 1  | Find a Deputy    | Get a Deputy for the Sheriff      |
@@ -58,8 +58,8 @@ Feature: Cards API
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate |
       | 2  | Kill the Sheriff | Make the town kill the Sheriff    |
       | 3  | Take the town    | Make everybody sell their houses  |
-    When I delete card "3" for project "1"
-    And I call API "/projects/1/cards"
+    And I delete card "3" for project "1"
+    When I get all the cards for project 1 using the API
     Then the response should be a collection of "cards" with:
       | id | title            | description                       |
       | 1  | Find a Sheriff   | Get a Sheriff everybody will hate |
