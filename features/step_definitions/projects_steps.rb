@@ -22,3 +22,10 @@ Then /^the response should contain all existing projects$/ do
   last_json.should be_json_eql({projects: Project.all}.to_json)
 end
 
+Then /^the response should include the new project$/ do
+  Project.where(name: current_project.name, 
+                description: current_project.description).count.should == 1
+  
+  step %Q{the response should contain all existing projects}
+end
+
