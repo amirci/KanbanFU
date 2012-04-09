@@ -22,15 +22,14 @@ describe ProjectsController do
   end
 
   describe '#create' do
-    let(:attrib)        {{name: 'Super project', description: 'Really super!'}}
-    let(:new_project)   {stub_model(Project, attrib)}
+    let(:attrib)        { Fabricate.attributes_for(:project) }
+    let!(:new_project)  { stub_model(Project, attrib) }
     let(:create_attrib) {{"name"=>"Super project", "description"=>"Really super!"}}
 
-    # before { Project.stub(:new).and_return(new_project) }
-    
     context "When create succeeds" do
       before do
-        # given_saving_new_project(:succeeds)
+        Project.stub(:new).and_return(new_project)
+        given_saving_new_project(:succeeds)
         post :create, :format => :json, :project => attrib
       end
 
@@ -38,18 +37,23 @@ describe ProjectsController do
       it { should respond_with_json({project: new_project}.to_json(except: exceptions)) }
     end
     
-    # context "When create fails" do
-    #   before do
-    #     # given_saving_new_project(:fails)
-    #     post :create, :format => :json, :project => attrib
-    #   end
-    # 
-    #   it { should respond_with(:error) }
-    #   # it { should respond_with_json({project: new_project}.to_json(except: exceptions)) }
-    # end
+    context "When create fails" do
+      let(:errors) { {saving: 'Saving failed!'} }
+      
+      before do
+        Project.stub(:new).and_return(new_project)
+        given_saving_new_project(:fails)
+        post :create, :format => :json, :project => attrib
+      end
+    
+      it { should respond_with(:unprocessable_entity) }
+      it { should respond_with_json({errors: errors}.to_json) }
+    end
     
     def given_saving_new_project(succeeds) 
-      new_project.should_receive(:save).and_return(succeeds == :succeeds)
+      new_project.stub(:save).and_return(succeeds == :succeeds)
+      new_project.stub(:errors).and_return(errors) if succeeds == :fails
+      new_project.stub(:has_errors?).and_return(succeeds == :succeeds)
     end
   end
 
@@ -69,8 +73,6 @@ describe ProjectsController do
     end
     
     context "when project does not exist" do
-      # before { given_project_is(:not_found) }
-
       before { delete :destroy, :format => :json, :id => project.id }
     
       it { should respond_with(:not_found) }
