@@ -7,10 +7,8 @@ describe ProjectsController do
                                                   :name => "project_#{i}", 
                                                   :description => "description_#{i}") } }
 
-#  let(:exceptions) { [:project_id, :created_at, :updated_at] }
-  let(:exceptions) { [] }
+ let(:exceptions) { [:project_id, :created_at, :updated_at] }
                                                   
-
   describe '#index' do
     let(:json) { {projects: projects}.to_json(except: exceptions) }
 
@@ -24,8 +22,8 @@ describe ProjectsController do
   end
 
   describe '#create' do
-    let(:attrib)      {{name: 'Super project', description: 'Really super!'}}
-    let(:new_project) {stub_model(Project, attrib)}
+    let(:attrib)        {{name: 'Super project', description: 'Really super!'}}
+    let(:new_project)   {stub_model(Project, attrib)}
     let(:create_attrib) {{"name"=>"Super project", "description"=>"Really super!"}}
 
     # before { Project.stub(:new).and_return(new_project) }
