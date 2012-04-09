@@ -1,4 +1,4 @@
 Fabricator(:project) do
-  name        { Faker::Lorem.words(2).join('_') }
-  description { Faker::Lorem.paragraphs(2) }
+  name        { Faker::Lorem.words(2).join(" ") }
+  description { Faker::Lorem.paragraphs(2).join('\n') }
 end

@@ -11,7 +11,3 @@ Given /^I create a new project using the API$/ do
   set_current_project Project.new(attrib)
   post '/projects', :format => :json, 'project' => attrib
 end
-
-Then /^the response should include the new project$/ do
-  pending # express the regexp above with the code you wish you had
-end
