@@ -2,12 +2,12 @@ Given /^I have some projects$/ do
   10.times { Fabricate(:project) }
 end
 
-Given /^I have the projects:$/ do |table|
-  projects = table.hashes.collect { |attributes| Project.create!(attributes) }
+Given /^I have a project "([^"]*)"$/ do |project_name|
+  set_current_project Fabricate(:project, name: project_name)
 end
 
-Given /^I have a project called "([^"]*)"$/ do |project_name|
-  set_current_project Fabricate(:project, name: project_name)
+Given /^I have a project "([^"]*)" with cards$/ do |project_name|
+  set_current_project Fabricate(:full_project, name: project_name)
 end
 
 Then /^the response should indicate the project has been deleted$/ do
@@ -28,4 +28,5 @@ Then /^the response should include the new project$/ do
   
   step %Q{the response should contain all existing projects}
 end
+
 
