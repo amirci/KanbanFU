@@ -11,7 +11,7 @@ Given /^I have a project "([^"]*)" with cards$/ do |project_name|
 end
 
 Then /^the response should indicate the project has been deleted$/ do
-  last_json.should be_json_eql("null")
+  last_json_response.should be_json_eql("null")
 end
 
 Then /^the project should not exist any more$/ do
@@ -19,7 +19,7 @@ Then /^the project should not exist any more$/ do
 end
 
 Then /^the response should contain all existing projects$/ do
-  last_json.should be_json_eql({projects: Project.all}.to_json)
+  last_json_response.should be_json_eql({projects: Project.all}.to_json)
 end
 
 Then /^the response should include the new project$/ do
