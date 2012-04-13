@@ -2,12 +2,9 @@ require 'spec_helper'
 
 describe ProjectsController do
 
-  let(:projects) { (1..10).map { |i| stub_model(Project, 
-                                                  :id => i, 
-                                                  :name => "project_#{i}", 
-                                                  :description => "description_#{i}") } }
+  let(:projects) { (1..10).map { |i| stub_model(Project, Fabricate.attributes_for(:project)) } }
 
- let(:exceptions) { [:project_id, :created_at, :updated_at] }
+  let(:exceptions) { [:project_id, :created_at, :updated_at] }
                                                   
   describe '#index' do
     let(:json) { {projects: projects}.to_json(except: exceptions) }
@@ -21,6 +18,20 @@ describe ProjectsController do
     it { should respond_with_json json }
   end
 
+  describe '#show' do
+    let(:project) { projects.first }
+    
+    context "When project exists" do
+      before do
+        Project.stub(:find).with(project.id.to_s).and_return(project)
+        get :show, :id => project.id
+      end
+
+      it { should respond_with(:success) }
+      it { should assign_to(:project).with(project) }
+    end
+  end
+  
   describe '#create' do
     let(:attrib)        { Fabricate.attributes_for(:project) }
     let!(:new_project)  { stub_model(Project, attrib) }

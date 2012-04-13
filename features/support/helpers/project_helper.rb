@@ -1,5 +1,4 @@
 module ProjectHelper 
-  
   def current_project
     @current_project
   end

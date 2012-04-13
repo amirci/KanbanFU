@@ -1,5 +1,5 @@
 When /^I call the listing projects API$/ do
-  visit "/projects"
+  get_resource "/projects"
 end
 
 When /^I call the delete the project API$/ do
