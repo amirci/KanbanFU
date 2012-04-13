@@ -1,6 +1,5 @@
 Then /^I should see all the project phases$/ do
-  expected = current_project.phases.map { |p| p.name }
-  current_board.phases_names.should == expected
+  current_board.should show_all_the_phases_from current_project
 end
 
 Then /^I should see all the cards in the right phases$/ do

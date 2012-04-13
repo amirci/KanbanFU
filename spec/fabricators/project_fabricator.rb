@@ -4,6 +4,5 @@ Fabricator(:project) do
 end
 
 Fabricator(:full_project, :from => :project) do
-  cards(count: 10)
-  phases! { Faker::Lorem.words(3).map { |t| Fabricate(:phase, name: t) } }
+  phases!(count: 3)
 end

@@ -13,12 +13,11 @@ class BoardPage
     self
   end
   
-  def phases_names
-    all(:css, "phase name").map { |e| e.text }
-  end
-
-  def cards_titles
-    all(:css, "card title").map { |e| e.text }
+  def phases
+    all(:css, "phase").map do |phase| 
+      cards = phase.all("card title").map { |c| c.text }
+      {phase: phase.find("name").text, cards: cards}
+    end
   end
   
 end

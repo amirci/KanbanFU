@@ -2,19 +2,9 @@ require 'spec_helper'
 
 describe CardsController do
 
-  let(:cards)   { (1..10).map {|i| stub_model(Card, 
-                                              :project_id => 1, 
-                                              :id => i, 
-                                              :title => "card_#{i}", 
-                                              :description => "description_#{i}",
-                                              :created_at => Date.new,
-                                              :updated_at => nil) } }
-
+  let(:cards)   { (1..10).map {|i| stub_model(Card, Fabricate.attributes_for(:card)) } }
   let(:card)    { cards.first }
-  let(:project) { stub_model(Project, id: 1, 
-                             name: "Blazing Saddles", 
-                             description: "Movie",
-                             cards: cards) }
+  let(:project) { stub_model(Project, Fabricate.attributes_for(:project)) }
   
   let(:exceptions)    { [:project_id, :created_at, :updated_at] }
 
@@ -27,6 +17,7 @@ describe CardsController do
 
   describe "#index" do
     context "with json format" do
+      before { project.stub(:cards).and_return(cards) }
       before { get :index, :format => :json, :project_id => project.id }
       it { should respond_with :success }
       it { should respond_with_json({cards: cards}.to_json(:except => exceptions)) }
@@ -81,12 +72,12 @@ describe CardsController do
     end
 
     context "card is updated successfully" do
-      let(:updated_card) { stub_model(Card, :id => 1, :project_id => 1, 
+      let(:updated_card) { stub_model(Card, :id => 1, :project_id => project.id, 
                                       :title => 'updated title', 
                                       :description => 'new description') }
       
       before do
-        put :update, :format => :json, :project_id => project.id, :id => 1, 
+        put :update, :format => :json, :project_id => project.id, :id => card.id, 
             :card => {:title => 'updated title', :description => 'new description'}
       end
 
@@ -97,7 +88,7 @@ describe CardsController do
     context "card is not updated" do
       before do
         card.should_receive(:update_attributes).and_return(false)
-        put :update, :format => :json, :project_id => project.id, :id => 1, 
+        put :update, :format => :json, :project_id => project.id, :id => card.id, 
             :card => {:title => ''}
       end
 
@@ -114,7 +105,7 @@ describe CardsController do
     context "card is deleted successfully" do
       before do
         card.should_receive(:destroy).and_return(true)
-        delete :destroy, :format => :json, :project_id => project.id, :id => 1
+        delete :destroy, :format => :json, :project_id => project.id, :id => card.id
       end
 
       it { should respond_with(:success) }
@@ -124,7 +115,7 @@ describe CardsController do
     context "card is not deleted" do
       before do
         card.should_receive(:destroy).and_return(false)
-        delete :destroy, :format => :json, :project_id => project.id, :id => 1
+        delete :destroy, :format => :json, :project_id => project.id, :id => card.id
       end
 
       it { should respond_with(:bad_request) }

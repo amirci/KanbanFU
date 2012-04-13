@@ -1,4 +1,7 @@
 Fabricator(:phase) do
-  name        { Faker::Lorem.words(2).join(" ") }
-  description { Faker::Lorem.paragraphs(2).join('\n') }
+  name        { %w(Analysis Working Review QA Design Coding).sample + "_" + Faker::Lorem.words(1).first }
+  description { Faker::Lorem.paragraphs(1) }
+  
+  cards!(count: 2)
 end
+
