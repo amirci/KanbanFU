@@ -16,5 +16,9 @@ class BoardPage
   def phases_names
     all(:css, "phase name").map { |e| e.text }
   end
+
+  def cards_titles
+    all(:css, "card title").map { |e| e.text }
+  end
   
 end
