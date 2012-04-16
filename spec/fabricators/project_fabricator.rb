@@ -4,5 +4,5 @@ Fabricator(:project) do
 end
 
 Fabricator(:full_project, :from => :project) do
-  phases!(count: 3)
+  phases!(count: 3) { Fabricate(:full_phase) }
 end

@@ -8,7 +8,6 @@ Feature: Display the board for the project
     When  I go to the board
     Then  I should see all the project phases
 
-@wip
   Scenario: Display project cards
     Given I have a project "Movie Site" with cards
     When  I go to the board

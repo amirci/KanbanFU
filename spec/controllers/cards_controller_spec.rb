@@ -2,13 +2,14 @@ require 'spec_helper'
 
 describe CardsController do
 
-  let(:cards)   { (1..10).map {|i| stub_model(Card, Fabricate.attributes_for(:card)) } }
+  let(:cards)   { fabricate(10).stub_for(:card) }
   let(:card)    { cards.first }
-  let(:project) { stub_model(Project, Fabricate.attributes_for(:project)) }
+  let(:phases)  { fabricate(3).stub_for(:phase) }
+  let(:project) { fabricate.stub_for(:project)  }
   
-  let(:exceptions)    { [:project_id, :created_at, :updated_at] }
+  let(:exceptions) { [:phase_id, :created_at, :updated_at] }
 
-  before(:each) do
+  before(:each) do    
     Project.stub(:find_by_id).with(project.id.to_s).and_return(project)
     Card.stub(:find_by_id).with(card.id.to_s).and_return(card)
   end
@@ -43,11 +44,16 @@ describe CardsController do
 
   describe '#create' do
     let(:card_attributes) { {:title => "card_1", :description => "description_1"} }
-    let(:card) { stub_model(Card, card_attributes.merge({:project_id => project.id})) }
+    let(:card) { fabricate.stub_for(:card) }
 
+    before do
+      project.stub(:phases).and_return(phases)
+      phases.first.stub(:cards).and_return(cards)
+    end
+    
     context "when the card is created successfully" do
       before do
-        project.stub_chain(:cards, :create).and_return(card)
+        cards.stub(:create).and_return(card)
         post :create, :format => :json, :project_id => project.id, :card => card_attributes
       end
 
@@ -57,7 +63,7 @@ describe CardsController do
 
     context "when the card is invalid" do
       before do
-        project.stub_chain(:cards, :create).and_return(false)
+        cards.stub(:create).and_return(false)
         post :create, :format => :json, :project_id => project.id, :card => {}
       end
 
