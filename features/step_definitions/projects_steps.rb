@@ -10,6 +10,11 @@ Given /^I have a project "([^"]*)" with cards$/ do |project_name|
   set_current_project Fabricate(:full_project, name: project_name)
 end
 
+Given /^I have a project with phases "([^"]*)"$/ do |phases|
+  set_current_project Fabricate(:project)
+  current_project.phases = parse_phases_names(phases)
+end
+
 Then /^the response should indicate the project has been deleted$/ do
   last_json_response.should be_json_eql("null")
 end
@@ -28,5 +33,6 @@ Then /^the response should include the new project$/ do
   
   step %Q{the response should contain all existing projects}
 end
+
 
 

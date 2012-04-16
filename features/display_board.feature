@@ -5,10 +5,12 @@ Feature: Display the board for the project
   
   Scenario: Display project phases 
     Given I have a project "Movie Site" with cards
-    When  I go to the board
+    When  I display the board
     Then  I should see all the project phases
 
   Scenario: Display project cards
     Given I have a project "Movie Site" with cards
-    When  I go to the board
+    When  I display the board
     Then  I should see all the cards in the right phases
+
+  

@@ -31,6 +31,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'fabrication'
+  gem "capybara-webkit"
 
   gem 'spork'
   gem 'guard'
