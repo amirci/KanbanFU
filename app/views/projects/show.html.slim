@@ -1,4 +1,7 @@
 board
-  - @project.phases.each do |p|
+  - @project.phases.each do |phase|
     phase
-      name= p.name
+      name= phase.name
+      - phase.cards.each do |card|
+        card
+          title= card.title

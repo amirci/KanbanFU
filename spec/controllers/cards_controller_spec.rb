@@ -2,23 +2,14 @@ require 'spec_helper'
 
 describe CardsController do
 
-  let(:cards)   { (1..10).map {|i| stub_model(Card, 
-                                              :project_id => 1, 
-                                              :id => i, 
-                                              :title => "card_#{i}", 
-                                              :description => "description_#{i}",
-                                              :created_at => Date.new,
-                                              :updated_at => nil) } }
-
+  let(:cards)   { fabricate(10).stub_for(:card) }
   let(:card)    { cards.first }
-  let(:project) { stub_model(Project, id: 1, 
-                             name: "Blazing Saddles", 
-                             description: "Movie",
-                             cards: cards) }
+  let(:phases)  { fabricate(3).stub_for(:phase) }
+  let(:project) { fabricate.stub_for(:project)  }
   
-  let(:exceptions)    { [:project_id, :created_at, :updated_at] }
+  let(:exceptions) { [:phase_id, :created_at, :updated_at] }
 
-  before(:each) do
+  before(:each) do    
     Project.stub(:find_by_id).with(project.id.to_s).and_return(project)
     Card.stub(:find_by_id).with(card.id.to_s).and_return(card)
   end
@@ -27,6 +18,7 @@ describe CardsController do
 
   describe "#index" do
     context "with json format" do
+      before { project.stub(:cards).and_return(cards) }
       before { get :index, :format => :json, :project_id => project.id }
       it { should respond_with :success }
       it { should respond_with_json({cards: cards}.to_json(:except => exceptions)) }
@@ -52,11 +44,16 @@ describe CardsController do
 
   describe '#create' do
     let(:card_attributes) { {:title => "card_1", :description => "description_1"} }
-    let(:card) { stub_model(Card, card_attributes.merge({:project_id => project.id})) }
+    let(:card) { fabricate.stub_for(:card) }
 
+    before do
+      project.stub(:phases).and_return(phases)
+      phases.first.stub(:cards).and_return(cards)
+    end
+    
     context "when the card is created successfully" do
       before do
-        project.stub_chain(:cards, :create).and_return(card)
+        cards.stub(:create).and_return(card)
         post :create, :format => :json, :project_id => project.id, :card => card_attributes
       end
 
@@ -66,7 +63,7 @@ describe CardsController do
 
     context "when the card is invalid" do
       before do
-        project.stub_chain(:cards, :create).and_return(false)
+        cards.stub(:create).and_return(false)
         post :create, :format => :json, :project_id => project.id, :card => {}
       end
 
@@ -81,12 +78,12 @@ describe CardsController do
     end
 
     context "card is updated successfully" do
-      let(:updated_card) { stub_model(Card, :id => 1, :project_id => 1, 
+      let(:updated_card) { stub_model(Card, :id => 1, :project_id => project.id, 
                                       :title => 'updated title', 
                                       :description => 'new description') }
       
       before do
-        put :update, :format => :json, :project_id => project.id, :id => 1, 
+        put :update, :format => :json, :project_id => project.id, :id => card.id, 
             :card => {:title => 'updated title', :description => 'new description'}
       end
 
@@ -97,7 +94,7 @@ describe CardsController do
     context "card is not updated" do
       before do
         card.should_receive(:update_attributes).and_return(false)
-        put :update, :format => :json, :project_id => project.id, :id => 1, 
+        put :update, :format => :json, :project_id => project.id, :id => card.id, 
             :card => {:title => ''}
       end
 
@@ -114,7 +111,7 @@ describe CardsController do
     context "card is deleted successfully" do
       before do
         card.should_receive(:destroy).and_return(true)
-        delete :destroy, :format => :json, :project_id => project.id, :id => 1
+        delete :destroy, :format => :json, :project_id => project.id, :id => card.id
       end
 
       it { should respond_with(:success) }
@@ -124,7 +121,7 @@ describe CardsController do
     context "card is not deleted" do
       before do
         card.should_receive(:destroy).and_return(false)
-        delete :destroy, :format => :json, :project_id => project.id, :id => 1
+        delete :destroy, :format => :json, :project_id => project.id, :id => card.id
       end
 
       it { should respond_with(:bad_request) }

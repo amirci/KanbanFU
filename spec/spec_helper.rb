@@ -21,6 +21,7 @@ Spork.prefork do
     config.mock_with :rspec
     config.use_transactional_fixtures = true
     config.include(JsonCustomMatchers)
+    config.include(FabricationHelpers)
   end
 end
 

@@ -2,6 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body.cards {
-  // Place scoped styles here
+@import "twitter/bootstrap";
+
+$gray: #ccc;
+$grayLighter: #eee;
+$grayLight: #ddd;
+
+body {
+  
+  card {
+    display: block;
+    border:1px solid $gray;
+    min-height: 100px;
+    clear:both;
+    background: $grayLighter;
+    margin-bottom: 15px;
+    @include border-radius(5px);
+    
+    title {
+      padding: 5px;
+      display: block;
+      color: black;
+      background: $grayLight;
+      border-bottom: 1px solid $gray;
+    }
+  }
+  
 }
