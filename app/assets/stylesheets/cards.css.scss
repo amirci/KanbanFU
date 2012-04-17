@@ -17,7 +17,6 @@ body {
     clear:both;
     background: $grayLighter;
     margin-bottom: 15px;
-    @include border-radius(5px);
     
     header {
       padding: 5px;

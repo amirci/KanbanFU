@@ -34,5 +34,6 @@ end
 
 Then /^the card phase should be "([^"]*)"$/ do |phase_name|
   current_board.find_phase(phase_name).should show_card(current_card)
+  current_card.should be_in_phase(phase_name)
 end
 
