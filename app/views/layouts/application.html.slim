@@ -2,8 +2,8 @@ doctype html
 html
   head
     title KanbanFu
-    = stylesheet_link_tag    "application"
-    = javascript_include_tag "application"
+    = stylesheet_link_tag    "application", debug: true
+    = javascript_include_tag "application", debug: true
     = csrf_meta_tags
   body
     = yield
