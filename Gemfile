@@ -12,7 +12,6 @@ group :assets do
   gem 'uglifier'
   gem 'sass-rails'
   gem 'bootstrap-sass-rails'
-  gem 'jquery-ui-rails'
 end
 
 gem 'jquery-rails'
