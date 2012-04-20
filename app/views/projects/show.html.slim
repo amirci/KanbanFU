@@ -1,6 +1,6 @@
-board
+board id=@project.id
   - @project.phases.each do |phase|
-    phase
+    phase id=phase.id
       name= phase.name
       - phase.cards.each do |card|
         card id=card.id
