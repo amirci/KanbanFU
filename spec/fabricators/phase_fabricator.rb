@@ -4,7 +4,7 @@ Fabricator(:phase) do
 end
 
 Fabricator(:full_phase, :from => :phase) do
-  cards!(count: 2)
+  cards(count: 2)
 end
 
 
