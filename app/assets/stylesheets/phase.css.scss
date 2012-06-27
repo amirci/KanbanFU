@@ -1,0 +1,25 @@
+@import "twitter/bootstrap";
+
+board {
+
+  phase {
+    display: table-cell;
+    min-width: 100px;
+    min-height: 300px;
+    margin-left: 0;
+    border-right: 2px dashed lightgray;
+    background-color: white;
+    padding: 3px;
+    &:last-child {
+      border-right: 0px
+    }
+
+    name {
+      @extend h3;
+      padding-left: 5px;
+      margin-bottom: 10px;
+      display: block;
+    }
+  }
+  
+}

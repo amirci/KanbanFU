@@ -1,10 +1,10 @@
 Fabricator(:phase) do
   name        { %w(Analysis Working Review QA Design Coding).sample + "_" + Faker::Lorem.words(1).first }
-  description { Faker::Lorem.paragraphs(1) }
+  description { Faker::Lorem.paragraphs(1).first }
 end
 
 Fabricator(:full_phase, :from => :phase) do
-  cards!(count: 2)
+  cards(count: 2)
 end
 
 

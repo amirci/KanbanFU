@@ -14,6 +14,8 @@ group :assets do
   gem 'bootstrap-sass-rails'
 end
 
+gem 'jquery-rails'
+
 # Deploy with Capistrano
 gem 'capistrano'
 
@@ -31,6 +33,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'fabrication'
+  gem "capybara-webkit"
 
   gem 'spork'
   gem 'guard'
